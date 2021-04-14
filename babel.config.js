@@ -9,6 +9,7 @@ module.exports = {
         "@modules": "./src/modules",
         "@config": "./src/config",
         "@controllers": "./src/controllers",
+        "@facades": "./src/facades",
         "@shared": "./src/shared"
       }
     }],

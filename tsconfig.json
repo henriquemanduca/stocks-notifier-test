@@ -26,6 +26,7 @@
     "paths": {
       "@config/*": ["./src/config/*"],
       "@controllers/*": ["./src/controllers/*"],
+      "@facades/*": ["./src/facades/*"],
       "@modules/*": ["./src/modules/*"],
       "@shared/*": ["./src/shared/*"]
     }

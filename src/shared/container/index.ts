@@ -9,9 +9,6 @@ import HistoryRepository from '@modules/history/infra/typeorm/repositories/Histo
 import ICriptoRepository from '@modules/cripto/repositories/ICriptoRepository'
 import CriptoRepository from '@modules/cripto/infra/typeorm/repositories/CriptoRepository'
 
-import ICacheHistoryRepository from '@modules/cache/repositories/ICacheHistoryRepository'
-import CacheHistoryRepository from '@modules/cache/infra/node/CacheHistoryRepository'
-
 container.registerSingleton<IStockRepository>(
   'StockRepository',
   StockRepository
@@ -25,9 +22,4 @@ container.registerSingleton<IHistoryRepository>(
 container.registerSingleton<ICriptoRepository>(
   'CriptoRepository',
   CriptoRepository
-)
-
-container.registerSingleton<ICacheHistoryRepository>(
-  'CacheHistoryRepository',
-  CacheHistoryRepository
 )

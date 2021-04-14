@@ -12,6 +12,10 @@ class CriptosRepository implements ICriptoRepository {
     this.ormRepository = getRepository(Cripto)
   }
 
+  public getRepository (): Repository<Cripto> {
+    return this.ormRepository
+  }
+
   public async findAll (): Promise<Cripto[]> {
     return await this.ormRepository.find()
   }
@@ -27,8 +31,8 @@ class CriptosRepository implements ICriptoRepository {
     return cripto
   }
 
-  public async create (criptoData: ICriptoDTO): Promise<Cripto> {
-    const cripto = this.ormRepository.create(criptoData)
+  public async create (criptoDTO: ICriptoDTO): Promise<Cripto> {
+    const cripto = this.ormRepository.create(criptoDTO)
     await this.ormRepository.save(cripto)
     return cripto
   }
