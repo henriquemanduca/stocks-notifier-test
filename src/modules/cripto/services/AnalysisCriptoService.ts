@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe'
 import PromisePool from '@supercharge/promise-pool'
+import { getConnection } from "typeorm";
 
 import logging from '@shared/infra/log'
 import ICriptoRepository from '@modules/cripto/repositories/ICriptoRepository'
@@ -43,14 +44,9 @@ class CriptoAnalysisService {
 
   public async getCriptos (): Promise<ICriptoValuesDTO[]> {
     try {
-      const sqlResult = await this.criptoRepository
-        .getRepository()
-        .createQueryBuilder()
-        .select('ticker, title')
-        // .where('ticker = :c1 or ticker = :c2 or ticker = :c3', { c1: 'BTC', c2: 'ETH', c3: 'XRP' })
-        .groupBy('ticker, title')
-        .getRawMany()
-      
+      const sqlResult = await getConnection()
+        .query('select ticker, title from group_criptos()')
+     
       const criptos: ICriptoValuesDTO[] = []
 
       sqlResult.forEach((cp: ICriptoValuesDTO) => {
