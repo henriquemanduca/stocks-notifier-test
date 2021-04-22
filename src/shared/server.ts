@@ -30,15 +30,14 @@ const main = async () => {
   logging.info(NAMESPACE, 'Main method called')
 
   // Wiper
-  //NodeCronFactory.newCron('0 11 * * *', wiperJob)
-
-  // Criptos
-  //NodeCronFactory.newCron(Utils.schedulesEvery25min(), coinMarketJob)
+  NodeCronFactory.newCron('0 11 * * *', wiperJob)
 
   setTimeout(() => {
     coinMarketJob()
-  }, 3000);
+  }, 2000)
 
+  // Criptos
+  // NodeCronFactory.newCron(Utils.schedulesEvery25min(), coinMarketJob)
 }
 
 main()

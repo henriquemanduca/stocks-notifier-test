@@ -1,17 +1,18 @@
-export interface IValuesCriptoDTO {
+export interface ICriptoInfoDTO {
   value: number;
   variation: number;
 }
 
-export interface ICriptoValuesDTO {
+export interface ICriptoValueListDTO {
   title: string;
   ticker: string;
-  values: IValuesCriptoDTO[];
+  values: ICriptoInfoDTO[];
+  bias: number;
 }
 
 export default interface ICriptoDTO {
   title: string;
   ticker: string;
   value: number;
-  variation: number;  
+  variation: number;
 }

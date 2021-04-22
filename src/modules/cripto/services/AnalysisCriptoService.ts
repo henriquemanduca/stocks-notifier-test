@@ -1,37 +1,29 @@
-import { injectable, inject } from 'tsyringe'
+import { injectable } from 'tsyringe'
+import { getConnection } from 'typeorm'
 import PromisePool from '@supercharge/promise-pool'
-import { getConnection } from "typeorm";
 
 import logging from '@shared/infra/log'
-import ICriptoRepository from '@modules/cripto/repositories/ICriptoRepository'
-import { IValuesCriptoDTO, ICriptoValuesDTO } from '@modules/cripto/dtos/ICriptoDTO'
+// import ICriptoRepository from '@modules/cripto/repositories/ICriptoRepository'
+import { ICriptoInfoDTO, ICriptoValueListDTO } from '@modules/cripto/dtos/ICriptoDTO'
 
 const NAMESPACE = 'CriptoAnalysisService'
 
 @injectable()
 class CriptoAnalysisService {
-  constructor(
-    @inject('CriptoRepository')
-    private criptoRepository: ICriptoRepository
-  ) {}
+  constructor () {}
 
-  public async getInfoByTicker (ticker: string): Promise<IValuesCriptoDTO[]> {
+  public async getInfoByTicker (ticker: string): Promise<ICriptoInfoDTO[]> {
     try {
-      const sqlResult = await this.criptoRepository
-        .getRepository()
-        .createQueryBuilder()
-        .select('id, value, variation')
-        .where('ticker = :tk', { tk: ticker })        
-        .orderBy('id', 'DESC')
-        .limit(10)
-        .getRawMany()
-      
-      const values: IValuesCriptoDTO[] = []
+      // the last 20 rows
+      const sqlResult = await getConnection()
+        .query(`select id, value, variation from criptos_values('${ticker}')`)
 
-      sqlResult.forEach((value: IValuesCriptoDTO) => {
+      const values: ICriptoInfoDTO[] = []
+
+      sqlResult.forEach((cripto: ICriptoInfoDTO) => {
         values.push({
-          value: value.value,
-          variation: value.variation,
+          value: cripto.value,
+          variation: cripto.variation
         })
       })
 
@@ -42,36 +34,35 @@ class CriptoAnalysisService {
     }
   }
 
-  public async getCriptos (): Promise<ICriptoValuesDTO[]> {
+  public async getCriptos (): Promise<ICriptoValueListDTO[]> {
     try {
       const sqlResult = await getConnection()
         .query('select ticker, title from group_criptos()')
-     
-      const criptos: ICriptoValuesDTO[] = []
 
-      sqlResult.forEach((cp: ICriptoValuesDTO) => {
+      const criptos: ICriptoValueListDTO[] = []
+
+      sqlResult.forEach((cp: ICriptoValueListDTO) => {
         criptos.push({
           ticker: cp.ticker,
           title: cp.title,
-          values: [] 
+          values: [],
+          bias: 0
         })
       })
 
       await PromisePool
         .for(criptos)
         .withConcurrency(3)
-        .process(async (cripto: ICriptoValuesDTO) => {
+        .process(async (cripto: ICriptoValueListDTO) => {
           cripto.values = await this.getInfoByTicker(cripto.ticker)
         })
 
       return criptos
-
     } catch (error) {
       logging.error(NAMESPACE, 'getCriptoStory', error)
       return []
     }
   }
-
 }
 
 export default CriptoAnalysisService
