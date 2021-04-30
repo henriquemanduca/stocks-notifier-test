@@ -1,10 +1,9 @@
 import dotenv from 'dotenv'
 import numeral from 'numeral'
 
-// import schedules from '@config/schedules'
 import logging from '@shared/infra/log'
 
-if (process.env.NODE_ENV !== 'production') dotenv.config()
+if (process.env.NODE_ENV !== 'production') { dotenv.config() }
 
 class Utils {
   static NAMESPACE = 'Utils'
@@ -39,7 +38,7 @@ class Utils {
   }
 
   static isProduction (): boolean {
-    const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV_HML === 'true'
+    const isProduction = process.env.NODE_ENV === 'production'
 
     if (isProduction) {
       logging.info(this.NAMESPACE, 'isProduction')
@@ -61,10 +60,6 @@ class Utils {
       return false
     }
     return true
-  }
-
-  static schedulesEvery25min (): string {
-    return '*/25 * * * *'
   }
 
   static schedulesWeekDay (hour: number = 10, increaseHour: number = 0): string {
@@ -96,6 +91,14 @@ class Utils {
 
   static intToMoney (value: number): number {
     return value / 100
+  }
+
+  static moneyFormat (value: number): string {
+    return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(value)
+  }
+
+  static moneyFormatBR (value: number): string {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
   }
 }
 

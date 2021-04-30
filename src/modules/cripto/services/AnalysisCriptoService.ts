@@ -3,13 +3,14 @@ import { getConnection } from 'typeorm'
 import PromisePool from '@supercharge/promise-pool'
 
 import logging from '@shared/infra/log'
+import Utils from '@shared/utils'
 // import ICriptoRepository from '@modules/cripto/repositories/ICriptoRepository'
 import { ICriptoInfoDTO, ICriptoValueListDTO } from '@modules/cripto/dtos/ICriptoDTO'
 
 const NAMESPACE = 'CriptoAnalysisService'
 
 @injectable()
-class CriptoAnalysisService {
+class AnalysisCriptoService {
   constructor () {}
 
   public async getInfoByTicker (ticker: string): Promise<ICriptoInfoDTO[]> {
@@ -22,8 +23,8 @@ class CriptoAnalysisService {
 
       sqlResult.forEach((cripto: ICriptoInfoDTO) => {
         values.push({
-          value: cripto.value,
-          variation: cripto.variation
+          value: Utils.intToMoney(cripto.value),
+          variation: Utils.intToMoney(cripto.variation)
         })
       })
 
@@ -65,4 +66,4 @@ class CriptoAnalysisService {
   }
 }
 
-export default CriptoAnalysisService
+export default AnalysisCriptoService

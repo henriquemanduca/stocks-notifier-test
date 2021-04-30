@@ -32,12 +32,13 @@ const main = async () => {
   // Wiper
   NodeCronFactory.newCron('0 11 * * *', wiperJob)
 
-  setTimeout(() => {
-    coinMarketJob()
-  }, 2000)
+  // setTimeout(() => {
+  //   coinMarketJob()
+  // }, 2000)
 
   // Criptos
-  // NodeCronFactory.newCron(Utils.schedulesEvery25min(), coinMarketJob)
+  NodeCronFactory.newCron('0 9 * * *', coinMarketJob)
+  NodeCronFactory.newCron('0 13 * * *', coinMarketJob)
 }
 
 main()
