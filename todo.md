@@ -28,6 +28,6 @@ npx typeorm migration:create -n CreateCriptos
 6. g rebase the_other_branch
 
 ## Pm2
-pm2 start index.js --name stocksCrawlerUOL --ignore-watch="node_modules"
-pm2 start ./dist/index.js --name stocksCrawlerUOL --watch="dist/" --ignore-watch="node_modules"
+pm2 start index.js --name stocksNotify --ignore-watch="node_modules"
+pm2 start ./dist/index.js --name stocksNotify --watch="dist/" --ignore-watch="node_modules"
 
