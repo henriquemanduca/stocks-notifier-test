@@ -38,7 +38,8 @@ const main = async () => {
 
   // Criptos
   NodeCronFactory.newCron('0 9 * * *', coinMarketJob)
-  NodeCronFactory.newCron('0 13 * * *', coinMarketJob)
+  NodeCronFactory.newCron('0 14 * * *', coinMarketJob)
+  NodeCronFactory.newCron('0 17 * * *', coinMarketJob)
 }
 
 main()

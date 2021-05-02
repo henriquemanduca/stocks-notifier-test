@@ -47,6 +47,7 @@ class AnalysisCriptoFacade {
         <th style='width:80px; border-bottom: 1px solid #ddd;'>Tiker</th>
         <th style='width:150px; border-bottom: 1px solid #ddd;'>Title</th>
         <th style='width:90px; border-bottom: 1px solid #ddd;'>Value</th>
+        <th style='width:90px; border-bottom: 1px solid #ddd;'>Variation</th>
       </thead>
     `
 
@@ -76,6 +77,7 @@ class AnalysisCriptoFacade {
         <td>${cripto.ticker}</td>
         <td>${cripto.title}</td>
         <td style='text-align:right;'>${Utils.moneyFormat(cripto.values[0].value)}</td>
+        <td style='text-align:right;'>${Utils.moneyFormat(cripto.values[0].variation)}</td>
       </tr>`
 
       switch (cripto.bias) {

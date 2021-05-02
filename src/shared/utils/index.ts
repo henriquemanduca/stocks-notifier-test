@@ -94,11 +94,15 @@ class Utils {
   }
 
   static moneyFormat (value: number): string {
-    return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(value)
+    return new Intl.NumberFormat('pt-BR',
+      { minimumFractionDigits: 2 }
+    ).format(value)
   }
 
   static moneyFormatBR (value: number): string {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
+    return new Intl.NumberFormat('pt-BR',
+      { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 }
+    ).format(value)
   }
 }
 
